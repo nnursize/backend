@@ -8,5 +8,5 @@ app.use(cors())
 
 
 app.listen(8800, ()=>{
-    console.log("Connected")
+    console.log("Connected 1")
 })
