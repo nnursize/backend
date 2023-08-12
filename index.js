@@ -4,9 +4,28 @@ import authRoutes from "./routes/auth.js"
 import userRoutes from "./routes/users.js"
 import commentRoutes from "./routes/comments.js"
 import rateRoutes from "./routes/rates.js"
+import multer from "multer"
 import cors from "cors";
 
 const app=express()
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, "../myapp/public/upload");
+    },
+    filename: function (req, file, cb) {
+      cb(null, Date.now()+file.originalname);
+    },
+  });
+  
+  const upload = multer({ storage });
+  
+  app.post("/api/upload", upload.single("image"), function (req, res) {
+    
+    const image = req.file;
+    console.log(image.filename)
+    res.status(200).json(image.filename);
+  });
 
 app.use(express.json())
 app.use("/api/movies",movieRoutes)
