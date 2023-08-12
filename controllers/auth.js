@@ -51,5 +51,5 @@ export const login=(req,res)=>{
 };
 
 export const logout=(req,res)=>{
-    
+    return res.json("User has been logged out!");
 };
