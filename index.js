@@ -4,6 +4,8 @@ import authRoutes from "./routes/auth.js"
 import userRoutes from "./routes/users.js"
 import commentRoutes from "./routes/comments.js"
 import rateRoutes from "./routes/rates.js"
+import actorRoutes from "./routes/actors.js"
+import directorRoutes from "./routes/directors.js"
 import multer from "multer"
 import cors from "cors";
 
@@ -23,7 +25,6 @@ const storage = multer.diskStorage({
   app.post("/api/upload", upload.single("image"), function (req, res) {
     
     const image = req.file;
-    console.log(image.filename)
     res.status(200).json(image.filename);
   });
 
@@ -33,6 +34,8 @@ app.use("/api/users",userRoutes)
 app.use("/api/auth",authRoutes)
 app.use("/api/comments",commentRoutes)
 app.use("/api/rate",rateRoutes)
+app.use("/api/directors",directorRoutes)
+app.use("/api/actors",actorRoutes)
 
 app.use(cors())
 

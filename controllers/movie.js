@@ -31,9 +31,40 @@ export const addMovie=(req,res)=>{
     ];
   
     db.query(q, [values], (err, data) => {
-        if (err) return res.json(err);
-        return res.json("Post has been created.");
-    });
+        if (err){ return res.json(err);}
+        
+        //performed_by
+        const q2="INSERT INTO performed_by( `movieid`, `movie_actor_id`) VALUES(?)"
+
+        for (var i =0; i<req.body.actors.length ; i+=1)
+        {
+            var values2=[
+                data.insertId,
+                req.body.actors[i],
+            ];
+            db.query(q2, [values2], (err, data2) => {
+                if (err) return res.json(err);
+            });
+        }
+
+        //directed_by
+        const q3="INSERT INTO directed_by( `movie_id`, `movie_director_id`) VALUES(?)"
+
+        for (var m =0; m<req.body.directors.length ; m+=1)
+        {
+            var values3=[
+                data.insertId,
+                req.body.directors[m],
+            ];
+            console.log(values2)
+            db.query(q3, [values3], (err, data3) => {
+                if (err) return res.json(err);
+            });
+        }
+        return res.json("Movie has been created.");
+        });
+
+    
 }
 
 export const deleteMovie=(req,res)=>{
@@ -42,24 +73,45 @@ export const deleteMovie=(req,res)=>{
     db.query(q, [movieid], (err, data)=>{
         if (err) return res.json(err);
   
-        return res.json("Post has been deleted!");
+        return res.json("Movie has been deleted!");
     });
 }
 
 export const updateMovie=(req,res)=>{
-    const movieid=req.params.id;
-    const q="UPDATE movies SET `name`=?, `summary`=?, `img`=?, `genre`=?, `duration`=?, `year`=? WHERE id=?"
-    const values=[
-        req.body.name,
-        req.body.summary,
-        req.body.img,
-        req.body.genre,
-        req.body.duration,
-        req.body.year,
-    ];
-  
-    db.query(q, [...values, movieid], (err, data) => {
-        if (err) return res.json(err);
-        return res.json("Post has been updated.");
-    });
+
+    if(req.body.img===undefined)
+    {
+        const movieid=req.params.id;
+        const q="UPDATE movies SET `name`=?, `summary`=?, `genre`=?, `duration`=?, `year`=? WHERE id=?"
+        const values=[
+            req.body.name,
+            req.body.summary,
+            req.body.genre,
+            req.body.duration,
+            req.body.year,
+        ];
+    
+        db.query(q, [...values, movieid], (err, data) => {
+            if (err) return res.json(err);
+            return res.json("Movie has been updated.");
+        });
+    }
+    else
+    {
+        const movieid=req.params.id;
+        const q="UPDATE movies SET `name`=?, `summary`=?, `img`=?, `genre`=?, `duration`=?, `year`=? WHERE id=?"
+        const values=[
+            req.body.name,
+            req.body.summary,
+            req.body.img,
+            req.body.genre,
+            req.body.duration,
+            req.body.year,
+        ];
+    
+        db.query(q, [...values, movieid], (err, data) => {
+            if (err) return res.json(err);
+            return res.json("Movie has been updated.");
+        });
+    }
 }
