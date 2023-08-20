@@ -32,8 +32,36 @@ export const addMovie=(req,res)=>{
   
     db.query(q, [values], (err, data) => {
         if (err) return res.json(err);
-        return res.json("Post has been created.");
     });
+
+    //performed_by
+    const q2="INSERT INTO performed_by ( `movie_id`, `movie_actor_id`) VALUES(?)"
+    for (actr in req.body.actors)
+    {
+        values2=[
+            req.body.movie_id,
+            actr,
+        ];
+
+        db.query(q2, [values2], (err, data) => {
+            if (err) return res.json(err);
+        });
+    }
+
+    //directed_by
+    const q3="INSERT INTO directed_by( `movie_id`, `movie_director_id`) VALUES(?)"
+    for (drctr in req.body.directors)
+    {
+        values3=[
+            req.body.movie_id,
+            drctr,
+        ];
+
+        db.query(q2, [values3], (err, data) => {
+            if (err) return res.json(err);
+        });
+    }
+    return res.json("Movie has been created.");
 }
 
 export const deleteMovie=(req,res)=>{
@@ -42,7 +70,7 @@ export const deleteMovie=(req,res)=>{
     db.query(q, [movieid], (err, data)=>{
         if (err) return res.json(err);
   
-        return res.json("Post has been deleted!");
+        return res.json("Movie has been deleted!");
     });
 }
 
@@ -60,6 +88,6 @@ export const updateMovie=(req,res)=>{
   
     db.query(q, [...values, movieid], (err, data) => {
         if (err) return res.json(err);
-        return res.json("Post has been updated.");
+        return res.json("Movie has been updated.");
     });
 }
