@@ -1,7 +1,7 @@
 import {db} from "../db.js"
 
 export const getActor=(req,res)=>{
-    const q = "SELECT `actor_id` , `actor_name`, `years_of_experience` FROM performed_by,actor WHERE actor_id=movie_actor_id AND movie_id=? ";
+    const q = "SELECT `actor_id` , `actor_name`, `years_of_experience` FROM performed_by,actor WHERE actor_id=movie_actor_id AND movieid=? ";
     db.query(q, [req.params.movieid], (err, data) => {
         if (err) return res.status(500).json(err);
 

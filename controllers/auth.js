@@ -46,7 +46,7 @@ export const login=(req,res)=>{
         return res.status(400).json("Wrong username or password!");
 
         const {password, ...other}=data[0];
-        return res.status(200).json(other);            //??? cookieli
+        return res.status(200).json(other);            
     });
 };
 

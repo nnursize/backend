@@ -19,7 +19,7 @@ export const getDirectors=(req,res)=>{
 }
 
 export const addDirector=(req,res)=>{
-    const q="INSERT INTO actor(`director_name`, `nationality`) VALUES(?)"
+    const q="INSERT INTO director(`director_name`, `nationality`) VALUES(?)"
     const values=[
         req.body.director_name,
         req.body.nationality,
